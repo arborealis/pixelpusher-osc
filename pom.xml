@@ -15,6 +15,11 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>com.illposed.osc</groupId>
+      <artifactId>javaosc-core</artifactId>
+      <version>0.3</version>
+    </dependency>
+    <dependency>
       <groupId>com.heroicrobot.dropbit.devices.pixelpusher</groupId>
       <artifactId>PixelPusher</artifactId>
       <version>1.0</version>
