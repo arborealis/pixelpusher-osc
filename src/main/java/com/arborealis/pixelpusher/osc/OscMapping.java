@@ -34,32 +34,32 @@ public class OscMapping {
     private int pixel;
 
     public PixelIndex(int tree, int branch, int pixel) {
-        this.tree = tree;
-        this.branch = branch;
-        this.pixel = pixel;
+      this.tree = tree;
+      this.branch = branch;
+      this.pixel = pixel;
     }
 
     @Override
     public int hashCode() {
-        return this.tree ^ this.branch ^ this.pixel;
+      return this.tree ^ this.branch ^ this.pixel;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        PixelIndex other = (PixelIndex) obj;
-        if (this.tree != other.tree)
-            return false;
-        if (this.branch != other.branch)
-            return false;
-        if (this.pixel != other.pixel)
-            return false;
+      if (this == obj)
         return true;
+      if (obj == null)
+        return false;
+      if (getClass() != obj.getClass())
+        return false;
+      PixelIndex other = (PixelIndex) obj;
+      if (this.tree != other.tree)
+        return false;
+      if (this.branch != other.branch)
+        return false;
+      if (this.pixel != other.pixel)
+        return false;
+      return true;
     }
   }
 

@@ -2,7 +2,7 @@ package com.arborealis.pixelpusher.osc;
 
 import com.heroicrobot.dropbit.registry.DeviceRegistry;
 
-public class OscBridge {	
+public class OscBridge {
   private static PixelPusherObserver observer;
   static DeviceRegistry registry;
 
