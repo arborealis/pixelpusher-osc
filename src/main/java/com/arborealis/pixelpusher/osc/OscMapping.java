@@ -159,14 +159,20 @@ public class OscMapping {
           if (hslColor == null) {
             hslColor = new HSLColor(0.0, 100.0, 100.0);
           }
-          if (component.equalsIgnoreCase("H")) {
-            hslColor.adjustHue(scaleHue(doubleArguments.get(p)));
-          } else if (component.equalsIgnoreCase("S")) {
-            hslColor.adjustSaturation(scaleSaturation(doubleArguments.get(p)));
-          } else if (component.equalsIgnoreCase("L")) {
-            hslColor.adjustLuminance(scaleLightness(doubleArguments.get(p)));
-          } else {
-            System.out.println("Component must be H, S, or L. Not '" + component + "'.");
+          
+          try {
+            if (component.equalsIgnoreCase("H")) {
+              hslColor.adjustHue(scaleHue(doubleArguments.get(p)));
+            } else if (component.equalsIgnoreCase("S")) {
+              hslColor.adjustSaturation(scaleSaturation(doubleArguments.get(p)));
+            } else if (component.equalsIgnoreCase("L")) {
+              hslColor.adjustLuminance(scaleLightness(doubleArguments.get(p)));
+            } else {
+              System.out.println("Component must be H, S, or L. Not '" + component + "'.");
+              return;
+            }
+          } catch (java.lang.IllegalArgumentException e) {
+            System.out.println(e);
             return;
           }
   
@@ -217,7 +223,9 @@ public class OscMapping {
             return;
           }
 
-          if (!(arguments.get(i) instanceof Double) && !(arguments.get(i) instanceof Float) && !(arguments.get(i) instanceof Integer)) {
+          if (!(arguments.get(i) instanceof Double) &&
+              !(arguments.get(i) instanceof Float) &&
+              !(arguments.get(i) instanceof Integer)) {
             System.out.println("Expected double at position " + i + " instead got " + arguments.get(i).getClass());
             return;
           }
