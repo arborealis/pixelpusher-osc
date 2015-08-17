@@ -12,7 +12,7 @@ import com.heroicrobot.dropbit.registry.DeviceRegistry;
 class PixelPusherObserver implements Observer {
   public boolean hasStrips = false;
   public OscMapping mapping = new OscMapping();
-  public HashMap<String,PixelPusher> knownPushers = new HashMap<String,PixelPusher>();
+  public HashMap<String, PixelPusher> knownPushers = new HashMap<String, PixelPusher>();
   
   public boolean hasSignificantChange(PixelPusher updatedDevice) {
 	  PixelPusher known = knownPushers.get(updatedDevice.getMacAddress());
@@ -29,31 +29,25 @@ class PixelPusherObserver implements Observer {
 		  return true;  
 	  }
 	  
-	  // otherwise it's not a significant enough change to trigger a remap, but we should remember that it changed.
+	  // otherwise it's not a significant enough change to trigger a remap,
+    // but we should remember that it changed.
 	  knownPushers.put(updatedDevice.getMacAddress(), updatedDevice);
 	  return false;
   }
   
   public void update(Observable registry, Object updatedDevice) {
      //logging.info("Registry changed!");
+    DeviceRegistry deviceRegistry = (DeviceRegistry) registry;
     if (updatedDevice != null) {
     	if (updatedDevice instanceof PixelPusher) {
     		if (hasSignificantChange((PixelPusher)updatedDevice)) {
-    			generateMapping((DeviceRegistry) registry);
-    			
-        		System.out.println("Device change: " + updatedDevice);
+    			mapping.generateMapping(deviceRegistry.getPushers());
+          System.out.println("Device change: " + updatedDevice);
     		}
     	} else {
     		System.out.println("Registry:  updated device was not a PixelPusher!");
     	}
   	}
     this.hasStrips = true;
-  }
-
-  private void generateMapping(DeviceRegistry registry) {
-    mapping.generateMapping(registry.getPushers(), OscBridge.packing);
-    for (InetAddress address: mapping.multicastAddresses) {
-    	OscBridge.sacnReceiver.addGroup(address);
-    }
   }
 }
