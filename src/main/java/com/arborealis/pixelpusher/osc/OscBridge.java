@@ -10,9 +10,15 @@ public class OscBridge {
    * @param args
    */
   public static void main(String[] args) {
+    boolean debug = false;
+    if (args.length > 0) {
+      debug = Boolean.parseBoolean(args[0]);
+    }
+
     observer = new PixelPusherObserver();
+    observer.debug = debug;
     registry = new DeviceRegistry();
-    registry.setLogging(false);
+    registry.setLogging(debug);
     registry.addObserver(observer);
     registry.startPushing();
     registry.setAutoThrottle(false);

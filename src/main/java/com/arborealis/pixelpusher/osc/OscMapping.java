@@ -122,9 +122,14 @@ public class OscMapping {
     strip.setPixelGreen((byte) rgbColor.getGreen(), pixel);
   }
   
-  public void registerStrips(final PixelPusher pusher, final int tree) {
+  public void registerStrips(final PixelPusher pusher, final int tree, final boolean debug) {
     OSCListener listener = new OSCListener() {
       public void acceptMessage(java.util.Date time, OSCMessage message) {
+        if (debug) {
+          System.out.println("Recieved OSC Message to: " + message.getAddress() +
+                             " with: " + message.getArguments());
+        }
+
         // /ArborTree/[0-2]/[0-8]/*/{H,S,L}
         List<String> addressParts = splitAddress(message.getAddress());
         if (addressParts.size() < 5) {
@@ -193,9 +198,14 @@ public class OscMapping {
     listeners.add(listener);
   }
 
-  public void registerPixels(final PixelPusher pusher, final int tree) {
+  public void registerPixels(final PixelPusher pusher, final int tree, final boolean debug) {
     OSCListener listener = new OSCListener() {
       public void acceptMessage(java.util.Date time, OSCMessage message) {
+        if (debug) {
+          System.out.println("Recieved OSC Message to: " + message.getAddress() +
+                             " with: " + message.getArguments());
+        }
+
         // /ArborTree/[0-2]/[0-8]/*/[0-179]/HSL
         List<String> addressParts = splitAddress(message.getAddress());
         if (addressParts.size() < 5) {
@@ -252,7 +262,7 @@ public class OscMapping {
     listeners.add(listener);
   }
 
-  public void generateMapping(List<PixelPusher> pushers) {
+  public void generateMapping(List<PixelPusher> pushers, boolean debug) {
     if (receiver != null) {
       receiver.stopListening();
       listeners.clear();
@@ -268,8 +278,8 @@ public class OscMapping {
 
     for (final PixelPusher pusher : pushers) {
       int tree = pusher.getControllerOrdinal();
-      registerPixels(pusher, tree);
-      registerStrips(pusher, tree);
+      registerPixels(pusher, tree, debug);
+      registerStrips(pusher, tree, debug);
     }
     receiver.startListening();
   }

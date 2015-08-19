@@ -10,6 +10,7 @@ import com.heroicrobot.dropbit.devices.pixelpusher.PixelPusher;
 import com.heroicrobot.dropbit.registry.DeviceRegistry;
 
 class PixelPusherObserver implements Observer {
+  public boolean debug = false;
   public boolean hasStrips = false;
   public OscMapping mapping = new OscMapping();
   public HashMap<String, PixelPusher> knownPushers = new HashMap<String, PixelPusher>();
@@ -41,7 +42,7 @@ class PixelPusherObserver implements Observer {
     if (updatedDevice != null) {
       if (updatedDevice instanceof PixelPusher) {
         if (hasSignificantChange((PixelPusher)updatedDevice)) {
-          mapping.generateMapping(deviceRegistry.getPushers());
+          mapping.generateMapping(deviceRegistry.getPushers(), debug);
           System.out.println("Device change: " + updatedDevice);
         }
       } else {
