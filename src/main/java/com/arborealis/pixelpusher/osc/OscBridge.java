@@ -10,8 +10,9 @@ public class OscBridge {
    * @param args
    */
   public static void main(String[] args) {
-    boolean debug = false;
+    boolean debug = true;
     if (args.length > 0) {
+      System.out.println("Debug mode on.");
       debug = Boolean.parseBoolean(args[0]);
     }
 
