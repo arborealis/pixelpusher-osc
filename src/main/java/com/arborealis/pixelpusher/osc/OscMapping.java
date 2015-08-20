@@ -19,6 +19,8 @@ import com.heroicrobot.dropbit.registry.DeviceRegistry;
 
 
 public class OscMapping {
+  static int LEDS_PER_PIECE = 64;
+
   OSCPortIn receiver;
   List<OSCListener> listeners;
   HashMap<PixelIndex, HSLColor> currentColors;
@@ -26,6 +28,7 @@ public class OscMapping {
   OscMapping () {
     receiver = null;
     listeners = new ArrayList<OSCListener>();
+    currentColors = new HashMap<PixelIndex, HSLColor>();
   }
 
   public class PixelIndex {
@@ -130,13 +133,14 @@ public class OscMapping {
                              " with: " + message.getArguments());
         }
 
-        // /ArborTree/[0-2]/[0-8]/*/{H,S,L}
+        // /ArborTree/[0-2]/[0-7]/[0-100]/{H,S,L}
         List<String> addressParts = splitAddress(message.getAddress());
         if (addressParts.size() < 5) {
-          System.out.println("Expected at least 5 address parts instead got:" + addressParts.size());
+          System.out.println("Expected 5 address parts instead got:" + addressParts.size());
           return;
         }
         final int branch = Integer.parseInt(addressParts.get(2));
+        final int piece = Integer.parseInt(addressParts.get(3));
         final String component = addressParts.get(4);
 
         List<Object> arguments = message.getArguments();
@@ -159,7 +163,8 @@ public class OscMapping {
           }
         }
 
-        for (int p=0; p<doubleArguments.size(); ++p) {
+        int startPixel = piece * LEDS_PER_PIECE;
+        for (int p=startPixel; p<doubleArguments.size(); ++p) {
           HSLColor hslColor = getHSLPixel(tree, branch, p);
           if (hslColor == null) {
             hslColor = new HSLColor(0.0, 100.0, 100.0);
@@ -192,7 +197,7 @@ public class OscMapping {
         }
       }
     };
-    String oscAddress = "/ArborTree/" + tree + "/*/0/{H,S,L}";
+    String oscAddress = "/ArborTree/" + tree + "/[0-7]/[0-1000]/{H,S,L}";
     System.out.println("Registered OSC address: " + oscAddress);
     receiver.addListener(oscAddress, listener);
     listeners.add(listener);
@@ -206,14 +211,16 @@ public class OscMapping {
                              " with: " + message.getArguments());
         }
 
-        // /ArborTree/[0-2]/[0-8]/*/[0-179]/HSL
+        // /ArborTree/[0-2]/[0-7]/*/[0-179]/HSL
         List<String> addressParts = splitAddress(message.getAddress());
-        if (addressParts.size() < 5) {
-          System.out.println("Expected at least 5 address parts instead got:" + addressParts.size());
+        if (addressParts.size() < 6) {
+          System.out.println("Expected 6 address parts instead got:" + addressParts.size());
           return;
         }
         final int branch = Integer.parseInt(addressParts.get(2));
-        final int pixel = Integer.parseInt(addressParts.get(4));
+        final int piece = Integer.parseInt(addressParts.get(3));
+        final int pixelInPiece = Integer.parseInt(addressParts.get(4));
+        final int pixel = piece * LEDS_PER_PIECE + pixelInPiece;
 
         List<Object> arguments = message.getArguments();
         if (arguments.size() < 3) {

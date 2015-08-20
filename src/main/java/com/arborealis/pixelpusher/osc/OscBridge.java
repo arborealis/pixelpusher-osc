@@ -12,8 +12,10 @@ public class OscBridge {
   public static void main(String[] args) {
     boolean debug = true;
     if (args.length > 0) {
-      System.out.println("Debug mode on.");
       debug = Boolean.parseBoolean(args[0]);
+    }
+    if (debug) {
+      System.out.println("Debug output on.");
     }
 
     observer = new PixelPusherObserver();

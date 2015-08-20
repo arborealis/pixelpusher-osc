@@ -4,7 +4,7 @@
   <groupId>com.arborealis.pixelpusher.osc</groupId>
   <artifactId>OscBridge</artifactId>
   <packaging>jar</packaging>
-  <version>1.1-SNAPSHOT</version>
+  <version>1.2.1</version>
   <name>OscBridge</name>
   <url>http://maven.apache.org</url>
   <dependencies>
