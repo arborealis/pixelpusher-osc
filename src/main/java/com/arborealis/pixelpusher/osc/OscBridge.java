@@ -21,7 +21,7 @@ public class OscBridge {
     observer = new PixelPusherObserver();
     observer.debug = debug;
     registry = new DeviceRegistry();
-    registry.setLogging(debug);
+    registry.setLogging(false);
     registry.addObserver(observer);
     registry.startPushing();
     registry.setAutoThrottle(false);

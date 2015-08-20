@@ -120,6 +120,8 @@ public class OscMapping {
     Color rgbColor =  hslColor.getRGB();
     currentColors.put(new PixelIndex(tree, branch, pixel), hslColor);
 
+    System.out.println("Setting tree #" + tree + " branch #" + branch + " pixel #" + pixel +
+      " to: " + hslColor.getHue() + ", " + hslColor.getSaturation() + ", " + hslColor.getLuminance());
     strip.setPixelRed((byte) rgbColor.getRed(), pixel);
     strip.setPixelBlue((byte) rgbColor.getBlue(), pixel);
     strip.setPixelGreen((byte) rgbColor.getGreen(), pixel);
@@ -164,19 +166,20 @@ public class OscMapping {
         }
 
         int startPixel = piece * LEDS_PER_PIECE;
-        for (int p=startPixel; p<doubleArguments.size(); ++p) {
-          HSLColor hslColor = getHSLPixel(tree, branch, p);
+        for (int p=0; p<doubleArguments.size(); ++p) {
+          int pixel = startPixel + p;
+          HSLColor hslColor = getHSLPixel(tree, branch, pixel);
           if (hslColor == null) {
-            hslColor = new HSLColor(0.0, 100.0, 100.0);
+            hslColor = new HSLColor(180.0, 100.0, 100.0);
           }
           
           try {
             if (component.equalsIgnoreCase("H")) {
-              hslColor.adjustHue(scaleHue(doubleArguments.get(p)));
+              hslColor.setHue(scaleHue(doubleArguments.get(p)));
             } else if (component.equalsIgnoreCase("S")) {
-              hslColor.adjustSaturation(scaleSaturation(doubleArguments.get(p)));
+              hslColor.setSaturation(scaleSaturation(doubleArguments.get(p)));
             } else if (component.equalsIgnoreCase("L")) {
-              hslColor.adjustLuminance(scaleLightness(doubleArguments.get(p)));
+              hslColor.setLuminance(scaleLightness(doubleArguments.get(p)));
             } else {
               System.out.println("Component must be H, S, or L. Not '" + component + "'.");
               return;
@@ -185,7 +188,7 @@ public class OscMapping {
             System.out.println(e);
             return;
           }
-  
+
           Strip strip;
           try {
             strip = pusher.getStrip(branch);
@@ -193,7 +196,7 @@ public class OscMapping {
             System.out.println("No branch configured for: " + branch);
             return;
           }
-          setHSLPixel(strip, tree, branch, p, hslColor);
+          setHSLPixel(strip, tree, branch, pixel, hslColor);
         }
       }
     };
@@ -257,6 +260,10 @@ public class OscMapping {
           strip = pusher.getStrip(branch);
         } catch (java.lang.ArrayIndexOutOfBoundsException e) {
           System.out.println("No branch configured for: " + branch);
+          return;
+        }
+        if (strip == null) {
+          System.out.println("No strip at position: " + branch);
           return;
         }
         setUnscaledPixel(strip, tree, branch, pixel,
