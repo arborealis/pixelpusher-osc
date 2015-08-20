@@ -93,17 +93,17 @@ public class HSLColor
 
     public void setHue(double hue) {
         this.hsl[0] = hue;
-        rgb = toRGB(hsl, this.alpha);
+        rgb = toRGB(this.hsl, this.alpha);
     }
 
     public void setSaturation(double saturation) {
         this.hsl[1] = saturation;
-        rgb = toRGB(hsl, this.alpha);
+        rgb = toRGB(this.hsl, this.alpha);
     }
 
     public void setLuminance(double luminance) {
         this.hsl[2] = luminance;
-        rgb = toRGB(hsl, this.alpha);
+        rgb = toRGB(this.hsl, this.alpha);
     }
 
     /**
