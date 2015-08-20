@@ -118,11 +118,16 @@ public class OscMapping {
 
   public void setHSLPixel(Strip strip, int tree, int branch, int pixel, HSLColor hslColor) {
     Color rgbColor =  hslColor.getRGB();
+    if (rgbColor == null) {
+      System.out.println("Invalid RGB color for tree #" + tree + " branch #" + branch + " pixel #" + pixel);
+      return;
+    }
+
     currentColors.put(new PixelIndex(tree, branch, pixel), hslColor);
 
-    System.out.println("Setting tree #" + tree + " branch #" + branch + " pixel #" + pixel +
-      " to HSL: " + hslColor.getHue() + ", " + hslColor.getSaturation() + ", " + hslColor.getLuminance() + 
-      " or RGB: " + rgbColor.getRed() + ", " + rgbColor.getGreen() + ", " + rgbColor.getBlue());
+    //System.out.println("Setting tree #" + tree + " branch #" + branch + " pixel #" + pixel +
+    //  " to HSL: " + hslColor.getHue() + ", " + hslColor.getSaturation() + ", " + hslColor.getLuminance() + 
+    //  " or RGB: " + rgbColor.getRed() + ", " + rgbColor.getGreen() + ", " + rgbColor.getBlue());
     strip.setPixelRed((byte) rgbColor.getRed(), pixel);
     strip.setPixelGreen((byte) rgbColor.getGreen(), pixel);
     strip.setPixelBlue((byte) rgbColor.getBlue(), pixel);
@@ -195,6 +200,10 @@ public class OscMapping {
             strip = pusher.getStrip(branch);
           } catch (java.lang.ArrayIndexOutOfBoundsException e) {
             System.out.println("No branch configured for: " + branch);
+            return;
+          }
+          if (strip == null) {
+            System.out.println("No strip at position: " + branch);
             return;
           }
           setHSLPixel(strip, tree, branch, pixel, hslColor);

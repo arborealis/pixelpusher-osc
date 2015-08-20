@@ -34,8 +34,8 @@ public class HSLColor
     public HSLColor(Color rgb)
     {
         this.rgb = rgb;
-        hsl = fromRGB( rgb );
-        alpha = rgb.getAlpha() / 255.0;
+        this.hsl = fromRGB(this.rgb);
+        this.alpha = rgb.getAlpha() / 255.0;
     }
 
     /**
@@ -61,9 +61,9 @@ public class HSLColor
      */
     public HSLColor(double h, double s, double l, double alpha)
     {
-        hsl = new double[] {h, s, l};
+        this.hsl = new double[] {h, s, l};
         this.alpha = alpha;
-        rgb = toRGB(hsl, alpha);
+        this.rgb = toRGB(this.hsl, this.alpha);
     }
 
     /**
@@ -88,22 +88,22 @@ public class HSLColor
     {
         this.hsl = hsl;
         this.alpha = alpha;
-        rgb = toRGB(hsl, alpha);
+        this.rgb = toRGB(hsl, alpha);
     }
 
     public void setHue(double hue) {
         this.hsl[0] = hue;
-        rgb = toRGB(this.hsl, this.alpha);
+        this.rgb = toRGB(this.hsl, this.alpha);
     }
 
     public void setSaturation(double saturation) {
         this.hsl[1] = saturation;
-        rgb = toRGB(this.hsl, this.alpha);
+        this.rgb = toRGB(this.hsl, this.alpha);
     }
 
     public void setLuminance(double luminance) {
         this.hsl[2] = luminance;
-        rgb = toRGB(this.hsl, this.alpha);
+        this.rgb = toRGB(this.hsl, this.alpha);
     }
 
     /**
