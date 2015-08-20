@@ -122,10 +122,10 @@ public class OscMapping {
 
     System.out.println("Setting tree #" + tree + " branch #" + branch + " pixel #" + pixel +
       " to HSL: " + hslColor.getHue() + ", " + hslColor.getSaturation() + ", " + hslColor.getLuminance() + 
-      " or RBG: " + rgbColor.getRed() + ", " + rgbColor.getBlue() + ", " + rgbColor.getGreen());
+      " or RGB: " + rgbColor.getRed() + ", " + rgbColor.getGreen() + ", " + rgbColor.getBlue());
     strip.setPixelRed((byte) rgbColor.getRed(), pixel);
-    strip.setPixelBlue((byte) rgbColor.getBlue(), pixel);
     strip.setPixelGreen((byte) rgbColor.getGreen(), pixel);
+    strip.setPixelBlue((byte) rgbColor.getBlue(), pixel);
   }
   
   public void registerStrips(final PixelPusher pusher, final int tree, final boolean debug) {
