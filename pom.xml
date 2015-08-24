@@ -37,10 +37,6 @@
               </manifest>
             </archive>
           </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-assembly-plugin</artifactId>
           <executions>
             <execution>
               <id>create-my-bundle</id>
