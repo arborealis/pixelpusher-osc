@@ -117,6 +117,16 @@ public class OscMapping {
   }
 
   public void setHSLPixel(Strip strip, int tree, int branch, int pixel, HSLColor hslColor) {
+    if (strip == null) {
+      System.out.println("Invalid strip for tree #" + tree + " branch #" + branch + " pixel #" + pixel);
+      return;
+    }
+
+    if (hslColor == null) {
+      System.out.println("Invalid HSL color for tree #" + tree + " branch #" + branch + " pixel #" + pixel);
+      return;
+    }
+
     Color rgbColor =  hslColor.getRGB();
     if (rgbColor == null) {
       System.out.println("Invalid RGB color for tree #" + tree + " branch #" + branch + " pixel #" + pixel);
