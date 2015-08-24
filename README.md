@@ -13,4 +13,4 @@ Directions:
 * $ mvn install:install-file -Dfile=lib/PixelPusher.jar -DgroupId=com.heroicrobot.dropbit.devices.pixelpusher -DartifactId=PixelPusher -Dversion=1.0 -Dpackaging=jar
 * $ mvn compile
 * $ mvn package
-* $ java -cp target/OscBridge-1.0-SNAPSHOT-jar-with-dependencies.jar com.arborealis.pixelpusher.osc.OscBridge
+* $ java -cp target/OscBridge-1.2.10-jar-with-dependencies.jar com.arborealis.pixelpusher.osc.OscBridge
